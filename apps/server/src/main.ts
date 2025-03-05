@@ -14,11 +14,9 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 8080);
 
-  return app;
+  const url = await app.getUrl();
+
+  Logger.log(`Server started on ${url}`, "Bootstrap");
 }
 
-bootstrap()
-  .then(async (app) => {
-    Logger.log(`Server running on ${await app.getUrl()}`, "Bootstrap");
-  })
-  .catch(console.error);
+bootstrap().then(console.log).catch(console.error);

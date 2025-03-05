@@ -6,7 +6,7 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "build:pkg": "pkg . --out-path build",
+    "build:pkg": "pkg . --out-path output",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
