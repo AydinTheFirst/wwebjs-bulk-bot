@@ -1,5 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
+.wwebjs_auth
+.wwebjs_cache
 # Dependencies
 node_modules
 .pnp
