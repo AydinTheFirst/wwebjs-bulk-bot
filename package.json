@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "wwebjs-bulk-bot",
   "private": true,
   "scripts": {
     "build": "turbo run build",
