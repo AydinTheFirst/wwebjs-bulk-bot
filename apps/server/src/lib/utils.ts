@@ -1,8 +1,12 @@
 import { Logger } from "@nestjs/common";
 import os from "os";
 import path from "path";
+import fs from "fs";
 
 export const getChromiumPath = () => {
+  const defaultLinuxPath = "/snap/bin/chromium";
+  if (fs.existsSync(defaultLinuxPath)) return defaultLinuxPath;
+
   const pathname = path.join(process.cwd(), "chromium");
 
   switch (os.platform()) {
