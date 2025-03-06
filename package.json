@@ -4,14 +4,9 @@
   "bin": {
     "app": "./apps/server/dist/main.js"
   },
-  "pkg": {
-    "assets": [
-      "node_modules/puppeteer/.local-chromium/**/*"
-    ]
-  },
   "scripts": {
     "build": "turbo run build",
-    "build:pkg": "pkg . --out-path output",
+    "build:pkg": "pkg . --out-path output --assets apps/client",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
