@@ -3,7 +3,6 @@ import "dotenv/config";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "@/app/app.module";
 import { Logger } from "@nestjs/common";
-import { getChromiumPath } from "@/lib/chromium";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,6 +20,5 @@ async function bootstrap() {
 }
 
 (async () => {
-  await getChromiumPath();
   await bootstrap();
 })().catch(console.error);

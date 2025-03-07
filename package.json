@@ -5,15 +5,16 @@
     "app": "./apps/server/dist/main.js"
   },
   "scripts": {
-    "build": "turbo run build",
-    "build:pkg": "pkg . --out-path output",
+    "build": "npm run build:turbo && node prebuild.js && npm run build:pkg",
+    "build:turbo": "turbo run build",
+    "build:pkg": "pkg . --out-path output --assets apps/server/public",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
-    "pkg": "^5.8.1",
+    "@yao-pkg/pkg": "^6.3.2",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
     "typescript": "5.8.2"

@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import * as wwebjs from "whatsapp-web.js";
 import { SendMessageDto } from "./wp.dto";
-import { getChromiumPath } from "@/lib/chromium";
+import { getBrowserPath } from "@/lib/chromium";
 
 @Injectable()
 export class WpService implements OnModuleInit {
@@ -14,11 +14,11 @@ export class WpService implements OnModuleInit {
   client: wwebjs.Client;
   ready: boolean;
 
-  async onModuleInit() {
+  onModuleInit() {
     this.client = new wwebjs.Client({
       authStrategy: new wwebjs.LocalAuth(),
       puppeteer: {
-        executablePath: await getChromiumPath(),
+        executablePath: getBrowserPath(),
         args: ["--no-sandbox", "--disable-setuid-sandbox"],
       },
     });

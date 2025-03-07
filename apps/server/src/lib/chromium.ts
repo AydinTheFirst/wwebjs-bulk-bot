@@ -1,18 +1,57 @@
 import { Logger } from "@nestjs/common";
 import path from "path";
-import * as browsers from "@puppeteer/browsers";
-import { Browser } from "@puppeteer/browsers";
+import {
+  Browser,
+  detectBrowserPlatform,
+  getInstalledBrowsers,
+  resolveBuildId,
+  install,
+} from "@puppeteer/browsers";
+import os from "os";
+import fs from "fs";
+
+export function getBrowserPath() {
+  let browserPath = "";
+  switch (os.platform()) {
+    case "win32":
+      browserPath =
+        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+      break;
+    case "linux":
+      browserPath = "/usr/bin/google-chrome";
+      break;
+    case "darwin":
+      browserPath =
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+      break;
+    default:
+      Logger.error("Platform belirlenemedi.", "Browser");
+      process.exit(1);
+  }
+
+  if (!fs.existsSync(browserPath)) {
+    Logger.error(
+      `Tarayıcı bulunamadı. Lütfen tarayıcının yüklü olduğundan emin olun. (${browserPath})`,
+      "Browser"
+    );
+    process.exit(1);
+  }
+
+  Logger.debug(`Tarayıcı yolu: ${browserPath}`, "Browser");
+
+  return browserPath;
+}
 
 export async function getChromiumPath() {
   const downloadsFolder = path.join(process.cwd(), ".chromium");
-  const browserPlatform = browsers.detectBrowserPlatform();
+  const browserPlatform = detectBrowserPlatform();
 
   if (!browserPlatform) {
     Logger.error("Platform belirlenemedi.", "Chromium");
     process.exit(1);
   }
 
-  const installedBrowsers = await browsers.getInstalledBrowsers({
+  const installedBrowsers = await getInstalledBrowsers({
     cacheDir: downloadsFolder,
   });
 
@@ -32,14 +71,14 @@ export async function getChromiumPath() {
   );
 
   // Güncel Chromium build ID'sini al
-  const buildId = await browsers.resolveBuildId(
-    browsers.Browser.CHROME,
+  const buildId = await resolveBuildId(
+    Browser.CHROME,
     browserPlatform,
     "latest"
   );
 
   let lastProgress = -1; // İlerleme oranını tutacak değişken
-  const chromiumPath = await browsers.install({
+  const chromiumPath = await install({
     browser: Browser.CHROME,
     platform: browserPlatform,
     buildId,

@@ -1,20 +1,20 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import fs from "fs";
 
 // Import all routes from the API_ROUTES object
 import { AppRoutes } from "./routes";
 import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "path";
+import path from "path";
+import fs from "fs";
 
 const routes = Object.values(AppRoutes);
 
 const clientPath = () => {
-  const path = join(process.cwd(), "..", "client", "dist");
-  if (fs.existsSync(path)) return path;
+  const publicPath = path.join(process.cwd(), "public");
+  if (fs.existsSync(publicPath)) return publicPath;
 
-  return join(process.cwd(), "public");
+  throw new Error("Client path not found!");
 };
 
 @Module({
